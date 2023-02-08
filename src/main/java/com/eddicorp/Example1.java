@@ -22,5 +22,22 @@ public class Example1 {
          * 4. 바디를 출력한다.
          *  4.1. body: {'email': 'dkanakf@dkanrjsk', 'password': 'dhodlrjfgotjrgkrhdlTdjdy?', 'allowMarketing': 'on'}
          */
+        final String[] lines = request.split("\r\n");
+        final String requestLine = lines[0];
+        final String[] partsOfRequestLine = requestLine.split(" ");
+        System.out.println("method: " + partsOfRequestLine[0]);
+        System.out.println("uri: " + partsOfRequestLine[1]);
+        System.out.println("protocol: " + partsOfRequestLine[2]);
+        final int length = lines.length;
+        for (int i = 1; i < length; i++) {
+            final String headerNameAndHeaderValue = lines[i];
+            if ("".equals(headerNameAndHeaderValue)) {
+                break;
+            }
+            final String[] nameAndValue = headerNameAndHeaderValue.split(":");
+            System.out.println("header name: " + nameAndValue[0].trim() + ", header value: " + nameAndValue[1].trim());
+        }
+        final String body = lines[length - 1];
+        System.out.println("body: " + body);
     }
 }
