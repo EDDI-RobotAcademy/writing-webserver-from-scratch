@@ -1,4 +1,4 @@
-package com.eddicorp;
+package com.eddicorp.examples.week1;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,4 @@
-package com.eddicorp;
+package com.eddicorp.examples.week1;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
