@@ -1,0 +1,90 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Noto Sans KR, sans-serif;
+}
+
+body {
+    background-color: #24252A;
+    margin: 0;
+}
+
+#main-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+}
+
+#main-nav > .main-logo {
+    text-decoration: none;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#main-nav > .main-logo:hover {
+    cursor: pointer;
+    color: #03A9D5;
+    transition: color 0.2s ease-in;
+}
+
+#main-nav > ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+#main-nav > ul > li {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 1rem;
+}
+
+#main-nav > ul > li > a {
+    text-decoration: none;
+    color: white;
+}
+
+#main-nav > ul > li > a:hover {
+    cursor: pointer;
+    color: #03A9D5;
+    transition: color 0.2s ease-in;
+}
+
+#main-post {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 60%;
+    padding: 0 20px;
+}
+
+#main-post > .post-box {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 5px solid white;
+    border-radius: 4px;
+    padding: 1rem;
+    color: white;
+}
+
+.post-box:hover {
+    cursor: pointer;
+    background-color: #21212d;
+    transition: background-color 0.2s ease-in;
+}
+
+.post-box > h3 {
+    color: #03A9D5;
+}
+
+.post-box > p {
+    margin-top: 2rem;
+    color: white;
+    font-size: 1.3rem;
+}

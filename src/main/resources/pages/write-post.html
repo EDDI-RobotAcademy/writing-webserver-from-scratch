@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Blog</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/write-post.css"></head>
+<body>
+<header id="main-nav">
+    <a class="main-logo" href="/">블로그</a>
+    <ul>
+        <li><a href="/">글 목록</a></li>
+        <li><a href="/write-post">작성하기</a></li>
+    </ul>
+    <a class="main-account-setting" href="#">
+        <img src="assets/icon/manage_accounts_white_24dp.svg">
+    </a>
+</header>
+<form id="write-post" action="/post" method="post">
+    <input name="title" placeholder="제목을 입력해주세요." class="write-title"/>
+    <textarea name="content" placeholder="글을 적어봐요." class="write-post"></textarea>
+    <input value="글 작성" type="submit" class="submit-post">
+</form>
+</body>
+</html>
