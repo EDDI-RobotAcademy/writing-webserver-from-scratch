@@ -13,9 +13,16 @@
         <li><a href="/">글 목록</a></li>
         <li><a href="write-post.html">작성하기</a></li>
     </ul>
-    <a class="main-account-setting" href="#">
+    {{#isLoggedIn}}
+    <a class="main-account-setting" href="/logout">
+        <img src="assets/icon/logout.svg">
+    </a>
+    {{/isLoggedIn}}
+    {{^isLoggedIn}}
+    <a class="main-account-setting" href="login.html">
         <img src="assets/icon/manage_accounts_white_24dp.svg">
     </a>
+    {{/isLoggedIn}}
 </header>
 <article id="main-post">
     {{#posts}}
