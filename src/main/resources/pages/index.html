@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Blog</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+</head>
+<body>
+<header id="main-nav">
+    <a class="main-logo" href="/">블로그</a>
+    <ul>
+        <li><a href="/">글 목록</a></li>
+        <li><a href="write-post.html">작성하기</a></li>
+    </ul>
+    {{#isLoggedIn}}
+    <a class="main-account-setting" href="/logout">
+        <img src="assets/icon/logout.svg">
+    </a>
+    {{/isLoggedIn}}
+    {{^isLoggedIn}}
+    <a class="main-account-setting" href="login.html">
+        <img src="assets/icon/manage_accounts_white_24dp.svg">
+    </a>
+    {{/isLoggedIn}}
+</header>
+<article id="main-post">
+    {{#posts}}
+    <div class="post-box">
+        <h1>{{title}}</h1>
+        <h3>작성자: {{author}}</h3>
+        <p>
+            {{content}}
+        </p>
+    </div>
+    {{/posts}}
+</article>
+</body>
+</html>

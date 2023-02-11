@@ -1,4 +1,4 @@
-package com.eddicorp;
+package com.eddicorp.examples.week1;
 
 public class Example1 {
 
