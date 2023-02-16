@@ -1,30 +1,21 @@
 package com.eddicorp;
 
-import com.eddicorp.server.HandleClientRequestTask;
-
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import com.eddicorp.tomcatapp.controller.MainServlet;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHandler;
 
 public class WebApplication {
 
-    public static void main(String[] args) throws IOException {
-        final ThreadPoolExecutor executor = new ThreadPoolExecutor(
-                8,
-                16,
-                1,
-                TimeUnit.MINUTES,
-                new ArrayBlockingQueue<>(500)
-        );
+    public static void main(String[] args) throws Exception {
+        final Server server = new Server(8080);
 
-        final ServerSocket serverSocket = new ServerSocket(8080);
-        Socket clientSocket;
-        while ((clientSocket = serverSocket.accept()) != null) {
-            final HandleClientRequestTask task = new HandleClientRequestTask(clientSocket);
-            executor.execute(task);
-        }
+        final ServletHandler servletHandler = new ServletHandler();
+        servletHandler.addServletWithMapping(MainServlet.class, "/");
+
+        server.setHandler(servletHandler);
+
+        // start server
+        server.start();
+        server.join();
     }
 }
