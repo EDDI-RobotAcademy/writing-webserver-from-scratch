@@ -1,4 +1,4 @@
-package com.eddicorp.tomcatapp.controller;
+package com.eddicorp.examples.week2.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
