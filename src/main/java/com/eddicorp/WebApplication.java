@@ -1,5 +1,7 @@
 package com.eddicorp;
 
+import com.eddicorp.http.HttpRequest;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +23,8 @@ public class WebApplication {
                     final OutputStream outputStream = connection.getOutputStream()
             ) {
                 // 요청을 분석해서 적절한 응답을 주자
-                final String rawRequestLine = readLine(inputStream);
-                final String[] partsOfRequestLine = rawRequestLine.split(" ");
-                final String uri = partsOfRequestLine[1];
-                System.out.println("uri = " + uri);
+                final HttpRequest httpRequest = new HttpRequest(inputStream);
+                final String uri = httpRequest.getUri();
 
                 String filename;
                 if ("/".equals(uri)) {
@@ -84,22 +84,6 @@ public class WebApplication {
         }
     }
 
-    private static String readLine(InputStream inputStream) throws IOException {
-        final StringBuilder stringBuilder = new StringBuilder();
-        int readCharacter;
-        while ((readCharacter = inputStream.read()) != -1) {
-            final char currentChar = (char) readCharacter;
-            if (currentChar == '\r') {
-                if (((char) inputStream.read()) == '\n') {
-                    return stringBuilder.toString();
-                } else {
-                    throw new IllegalStateException("Invalid HTTP request.");
-                }
-            }
-            stringBuilder.append(currentChar);
-        }
-        throw new IllegalStateException("Unable to find CRLF");
-    }
 
     private static byte[] readFileFromResourceStream(String fileName) throws IOException {
         final String filePath = Paths.get("pages", fileName).toString();
