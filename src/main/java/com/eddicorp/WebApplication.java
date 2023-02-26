@@ -1,6 +1,7 @@
 package com.eddicorp;
 
 import com.eddicorp.http.HttpRequest;
+import com.eddicorp.http.HttpResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 public class WebApplication {
@@ -62,24 +62,20 @@ public class WebApplication {
                 final byte[] rawFileToServe = readFileFromResourceStream(filename);
 
                 // 응답 만들기
+                final HttpResponse httpResponse = new HttpResponse(outputStream);
                 // 1. 상태라인
                 // - HTTP/1.1 200 OK
-                final String CRLF = "\r\n";
-                final String statusLine = "HTTP/1.1 200 OK" + CRLF;
-                outputStream.write(statusLine.getBytes(StandardCharsets.UTF_8));
+                httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
                 // 2. 헤더
                 // - Content-Type: text/html; charset=utf-8
-                final String contentTypeHeader = "Content-Type: " + mimeType + CRLF;
-                outputStream.write(contentTypeHeader.getBytes(StandardCharsets.UTF_8));
+                httpResponse.setHeader("Content-Type", mimeType);
                 // - Content-Length: rawFileToServe.length
-                final String contentLengthHeader = "Content-Length: " + rawFileToServe.length + CRLF;
-                outputStream.write(contentLengthHeader.getBytes(StandardCharsets.UTF_8));
-                outputStream.write(CRLF.getBytes(StandardCharsets.UTF_8));
+                httpResponse.setHeader("Content-Length", String.valueOf(rawFileToServe.length));
                 // 3. 바디
-                outputStream.write(rawFileToServe);
+                httpResponse.setBody(rawFileToServe);
 
-                // 이렇게 하면 제대로 화면에는 안나옴.
-                // 그 이유는 index.html 이외에 다른 친구들을 줘야하는데 대응이 안되어 있기 때문
+                // 응답하기!
+                httpResponse.flush();
             }
         }
     }
