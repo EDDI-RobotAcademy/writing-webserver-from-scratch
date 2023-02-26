@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.security.cert.CRL;
+import java.nio.file.Paths;
 
 public class WebApplication {
 
@@ -26,7 +26,15 @@ public class WebApplication {
                 final String uri = partsOfRequestLine[1];
                 System.out.println("uri = " + uri);
 
-                final byte[] rawFileToServe = readFileFromResourceStream();
+                String filename;
+                if ("/".equals(uri)) {
+                    filename = "index.html";
+                } else {
+                    filename = uri;
+                }
+
+                // 이대로라면 문제가 생김. mime type을 지정해주지 않았기 때문에!
+                final byte[] rawFileToServe = readFileFromResourceStream(filename);
 
                 // 응답 만들기
                 // 1. 상태라인
@@ -68,11 +76,12 @@ public class WebApplication {
         throw new IllegalStateException("Unable to find CRLF");
     }
 
-    private static byte[] readFileFromResourceStream() throws IOException {
+    private static byte[] readFileFromResourceStream(String fileName) throws IOException {
+        final String filePath = Paths.get("pages", fileName).toString();
         try (
                 final InputStream resourceInputStream = WebApplication.class
                         .getClassLoader()
-                        .getResourceAsStream("pages/index.html");
+                        .getResourceAsStream(filePath);
                 final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ) {
             if (resourceInputStream == null) {
