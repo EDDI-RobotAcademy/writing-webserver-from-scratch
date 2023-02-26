@@ -20,6 +20,12 @@ public class WebApplication {
                     final InputStream inputStream = connection.getInputStream();
                     final OutputStream outputStream = connection.getOutputStream()
             ) {
+                // 요청을 분석해서 적절한 응답을 주자
+                final String rawRequestLine = readLine(inputStream);
+                final String[] partsOfRequestLine = rawRequestLine.split(" ");
+                final String uri = partsOfRequestLine[1];
+                System.out.println("uri = " + uri);
+
                 final byte[] rawFileToServe = readFileFromResourceStream();
 
                 // 응답 만들기
@@ -43,6 +49,23 @@ public class WebApplication {
                 // 그 이유는 index.html 이외에 다른 친구들을 줘야하는데 대응이 안되어 있기 때문
             }
         }
+    }
+
+    private static String readLine(InputStream inputStream) throws IOException {
+        final StringBuilder stringBuilder = new StringBuilder();
+        int readCharacter;
+        while ((readCharacter = inputStream.read()) != -1) {
+            final char currentChar = (char) readCharacter;
+            if (currentChar == '\r') {
+                if (((char) inputStream.read()) == '\n') {
+                    return stringBuilder.toString();
+                } else {
+                    throw new IllegalStateException("Invalid HTTP request.");
+                }
+            }
+            stringBuilder.append(currentChar);
+        }
+        throw new IllegalStateException("Unable to find CRLF");
     }
 
     private static byte[] readFileFromResourceStream() throws IOException {
