@@ -33,6 +33,31 @@ public class WebApplication {
                     filename = uri;
                 }
 
+                String extension = null;
+                final int indexOfPeriod = uri.lastIndexOf(".");
+                if (indexOfPeriod != -1) {
+                    extension = uri.substring(indexOfPeriod + 1);
+                }
+                System.out.println("extension = " + extension);
+
+                // fallback으로 기본 값 지정
+                String mimeType = "text/html; charset=utf-8";
+                if ("html".equals(extension)) {
+                    mimeType = "text/html; charset=utf-8";
+                }
+
+                if ("css".equals(extension)) {
+                    mimeType = "text/css; charset=utf-8";
+                }
+
+                if ("svg".equals(extension)) {
+                    mimeType = "image/svg+xml";
+                }
+
+                if ("ico".equals(extension)) {
+                    mimeType = "image/x-icon";
+                }
+
                 // 이대로라면 문제가 생김. mime type을 지정해주지 않았기 때문에!
                 final byte[] rawFileToServe = readFileFromResourceStream(filename);
 
@@ -44,7 +69,7 @@ public class WebApplication {
                 outputStream.write(statusLine.getBytes(StandardCharsets.UTF_8));
                 // 2. 헤더
                 // - Content-Type: text/html; charset=utf-8
-                final String contentTypeHeader = "Content-Type: text/html; charset=utf-8" + CRLF;
+                final String contentTypeHeader = "Content-Type: " + mimeType + CRLF;
                 outputStream.write(contentTypeHeader.getBytes(StandardCharsets.UTF_8));
                 // - Content-Length: rawFileToServe.length
                 final String contentLengthHeader = "Content-Length: " + rawFileToServe.length + CRLF;
