@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class WebApplication {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Throwable {
         final ServerSocket serverSocket = new ServerSocket(8080);
         Socket connection;
 

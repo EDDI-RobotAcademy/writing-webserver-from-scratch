@@ -1,7 +1,7 @@
 package com.eddicorp.application;
 
-import com.eddicorp.http.HttpRequest;
-import com.eddicorp.http.HttpResponse;
+import com.eddicorp.http.request.HttpRequest;
+import com.eddicorp.http.response.HttpResponse;
 
 import java.nio.file.Paths;
 
