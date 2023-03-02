@@ -1,13 +1,9 @@
 package com.eddicorp.application.controller;
 
-import com.eddicorp.WebApplication;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
-import com.eddicorp.http.response.HttpStatus;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -17,6 +13,7 @@ public class RootController implements Controller {
     private static final String STATIC_FILE_PATH = "pages";
     private static final Map<RequestMapper, Controller> requestMap = new HashMap<>();
     private final Controller staticFileController = new StaticFileController();
+    private final Controller notFoundController = new NotFoundController();
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
@@ -38,6 +35,6 @@ public class RootController implements Controller {
             return;
         }
 
-//        notFoundController.handle(request, response);
+        notFoundController.handle(request, response);
     }
 }

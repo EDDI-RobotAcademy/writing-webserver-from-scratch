@@ -44,10 +44,12 @@ public class HttpResponse {
         }
     }
 
+
     private void buildStatusLine() throws IOException {
         final String statusLine = "HTTP/1.1 " + this.httpStatus.getStatusCode() + " " + this.httpStatus.getReasonPhrase() + CRLF;
         outputStream.write(statusLine.getBytes(StandardCharsets.UTF_8));
     }
+
 
     public HttpResponse(OutputStream outputStream) {
         this.outputStream = outputStream;

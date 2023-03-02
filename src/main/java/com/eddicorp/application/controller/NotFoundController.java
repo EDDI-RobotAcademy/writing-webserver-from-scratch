@@ -9,19 +9,13 @@ import java.nio.file.Paths;
 
 import static com.eddicorp.utils.FileHandler.*;
 
-public class StaticFileController implements Controller {
-
+public class NotFoundController implements Controller {
 
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
         final String uri = request.getUri();
-        String fileName = uri;
         String extension = "";
-
-        if ("/".equals(uri)) {
-            fileName = "index.html";
-        }
-        final String filePath = Paths.get(STATIC_FILE_PATH, fileName).toString();
+        final String filePath = Paths.get(STATIC_FILE_PATH, "not-found.html").toString();
         final byte[] rawFileToServe = readFileFromResourceStream(filePath);
 
         final int indexOfPeriod = uri.lastIndexOf(".");
