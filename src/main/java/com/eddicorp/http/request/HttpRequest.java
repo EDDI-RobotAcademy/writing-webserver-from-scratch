@@ -1,4 +1,4 @@
-package com.eddicorp.http;
+package com.eddicorp.http.request;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class HttpRequest {
     private final String uri;
-    private final String method;
+    private final String httpMethod;
     private final Map<String, String> headerMap = new HashMap<>();
 
     private final String body;
@@ -16,8 +16,8 @@ public class HttpRequest {
         return uri;
     }
 
-    public String getMethod() {
-        return method;
+    public String getHttpMethod() {
+        return httpMethod;
     }
 
     public String getBody() {
@@ -31,7 +31,7 @@ public class HttpRequest {
     public HttpRequest(InputStream inputStream) throws IOException {
         final String rawRequestLine = readLine(inputStream);
         final String[] partsOfRequestLine = rawRequestLine.split(" ");
-        this.method = partsOfRequestLine[0];
+        this.httpMethod = partsOfRequestLine[0];
         this.uri = partsOfRequestLine[1];
 
         String header;

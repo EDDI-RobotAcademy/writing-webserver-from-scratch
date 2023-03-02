@@ -1,4 +1,4 @@
-package com.eddicorp.http;
+package com.eddicorp.http.response;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -45,26 +45,8 @@ public class HttpResponse {
     }
 
     private void buildStatusLine() throws IOException {
-        final String statusLine = "HTTP/1.1 " + this.httpStatus.statusCode + " " + this.httpStatus.reasonPhrase + CRLF;
+        final String statusLine = "HTTP/1.1 " + this.httpStatus.getStatusCode() + " " + this.httpStatus.getReasonPhrase() + CRLF;
         outputStream.write(statusLine.getBytes(StandardCharsets.UTF_8));
-    }
-
-    public enum HttpStatus {
-        OK(200, "OK"),
-        CREATED(201, "CREATED"),
-        FOUND(302, "FOUND"),
-        BAD_REQUEST(400, "BAD REQUEST"),
-        NOT_FOUND(404, "NOT FOUND"),
-        ;
-
-
-        private final int statusCode;
-        private final String reasonPhrase;
-
-        HttpStatus(int statusCode, String reasonPhrase) {
-            this.statusCode = statusCode;
-            this.reasonPhrase = reasonPhrase;
-        }
     }
 
     public HttpResponse(OutputStream outputStream) {
