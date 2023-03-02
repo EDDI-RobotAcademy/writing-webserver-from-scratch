@@ -1,4 +1,4 @@
-package com.eddicorp.application;
+package com.eddicorp.application.controller;
 
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;

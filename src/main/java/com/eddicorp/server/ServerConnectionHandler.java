@@ -1,7 +1,7 @@
 package com.eddicorp.server;
 
-import com.eddicorp.application.Controller;
-import com.eddicorp.application.RootController;
+import com.eddicorp.application.controller.Controller;
+import com.eddicorp.application.controller.RootController;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
 

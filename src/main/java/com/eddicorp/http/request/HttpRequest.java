@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class HttpRequest {
     private final String uri;
-    private final String httpMethod;
+    private final HttpMethod httpMethod;
     private final Map<String, String> headerMap = new HashMap<>();
 
     private final String body;
@@ -16,7 +16,7 @@ public class HttpRequest {
         return uri;
     }
 
-    public String getHttpMethod() {
+    public HttpMethod getHttpMethod() {
         return httpMethod;
     }
 
@@ -31,12 +31,11 @@ public class HttpRequest {
     public HttpRequest(InputStream inputStream) throws IOException {
         final String rawRequestLine = readLine(inputStream);
         final String[] partsOfRequestLine = rawRequestLine.split(" ");
-        this.httpMethod = partsOfRequestLine[0];
+        this.httpMethod = HttpMethod.valueOf(partsOfRequestLine[0]);
         this.uri = partsOfRequestLine[1];
 
         String header;
         while (!"".equals(header = readLine(inputStream))) {
-            System.out.println("header: " + header);
             final String[] headerAndValue = header.split(" ");
             final String headerName = headerAndValue[0].trim();
             final String headerValue = headerAndValue[1].trim();
