@@ -67,3 +67,7 @@ public class HttpResponse {
 
 
 }
+//회원가입, 로그인, 게시글 등록
+// 회원가입 : post 됐다 치고
+// 로그인 : set-Cookie + index.html에 로그인 정보 (게시글 ddta list 담아야함)
+// 게시글 등록 : post 이후 get을 또 해서 -> html에 데이터 넣어서 값 body에 넣고 response에 태우기

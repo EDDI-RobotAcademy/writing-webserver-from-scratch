@@ -2,6 +2,8 @@ package com.eddicorp;
 
 import com.eddicorp.http.HttpRequest;
 import com.eddicorp.http.HttpResponse;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class WebApplication {
                 final HttpRequest httpRequest = new HttpRequest(inputStream);
                 final String uri =  httpRequest.getUri();
 
+
                 //file name 지정해주기 디폴트값은 index.html
                 String filename;
                 if("/".equals(uri)){
@@ -37,52 +40,61 @@ public class WebApplication {
                     filename = uri;
                 }
 
-                //뒤에 확장자 확인
-                String extension = null;
-                final int indexOfPeriod = uri.lastIndexOf(".");
-                if(indexOfPeriod != -1) {
-                    extension = uri.substring(indexOfPeriod +1);
-                }
-                System.out.println("extension = " +extension);
-
                 // fallback으로 기본 값 지정
-                String mimeType = "text/html; charset=utf-8";
-                if ("html".equals(extension)) {
-                    mimeType = "text/html; charset=utf-8";
-                }
+                String mimeType = setMimeType(uri);
 
-                if ("css".equals(extension)) {
-                    mimeType = "text/css; charset=utf-8";
-                }
+                final byte[] bodyData;
+                if(mimeType.equals("text/html; charset=utf-8")){
+                    bodyData = httpRequest.sendToController(uri, filename);
+                } else  bodyData = readFileFromResourceStream(filename);
 
-                if ("svg".equals(extension)) {
-                    mimeType = "image/svg+xml";
-                }
-
-                if ("ico".equals(extension)) {
-                    mimeType = "image/x-icon";
-                }
-
-                // rawFileToServe : body에 넣을 데이터
-                final byte[] rawFileToServe = readFileFromResourceStream(filename);
 
                 // 응답 만들기
                 final HttpResponse httpResponse = new HttpResponse(outputStream);
+
                 // 1. 상태라인
                 // - HTTP/1.1 200 OK
                 httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
+//                if(httpRequest.getResult().equals("OK")){
+//                    httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
+//                }else httpResponse.setHttpStatus(HttpResponse.HttpStatus.OK);
                 // 2. 헤더
                 // - Content-Type: text/html; charset=utf-8
                 httpResponse.setHeader("Content-Type", mimeType);
                 // - Content-Length: rawFileToServe.length
-                httpResponse.setHeader("Content-Length", String.valueOf(rawFileToServe.length));
+                httpResponse.setHeader("Content-Length", String.valueOf(bodyData.length));
                 // 3. 바디
-                httpResponse.setBody(rawFileToServe);
+                httpResponse.setBody(bodyData);
 
                 // 응답하기!
                 httpResponse.flush();
             }
         }
+    }
+
+    private static String setMimeType(String uri) {
+        //뒤에 확장자 확인
+        String extension = null;
+        final int indexOfPeriod = uri.lastIndexOf(".");
+        if(indexOfPeriod != -1) {
+            extension = uri.substring(indexOfPeriod +1);
+        }
+        if ("html".equals(extension)) {
+            return "text/html; charset=utf-8";
+        }
+
+        if ("css".equals(extension)) {
+            return "text/css; charset=utf-8";
+        }
+
+        if ("svg".equals(extension)) {
+            return "image/svg+xml";
+        }
+
+        if ("ico".equals(extension)) {
+            return "image/x-icon";
+        }
+        else  return "text/html; charset=utf-8";
     }
 
     private static byte[] readFileFromResourceStream(String filename) throws IOException {
@@ -112,3 +124,6 @@ public class WebApplication {
 }
 //1.페이지 구동먼저
 //2.블로그앱 힌트버전 참고
+
+// 3.2 할 일 : html에 데이터 넣을 것임. + 로그인 기능 추가
+// 3.3 할 일 : post 등록 진행.
