@@ -12,8 +12,9 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.eddicorp.utils.FileHandler.STATIC_FILE_PATH;
+
 public class RootController implements Controller {
-    private static final String STATIC_FILE_PATH = "pages";
     private static final Map<RequestMapper, Controller> requestMap = new HashMap<>();
     private final Controller staticFileController = new StaticFileController();
     private final Controller notFoundController = new NotFoundController();
