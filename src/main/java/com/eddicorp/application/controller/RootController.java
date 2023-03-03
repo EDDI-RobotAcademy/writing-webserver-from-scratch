@@ -1,5 +1,8 @@
 package com.eddicorp.application.controller;
 
+import com.eddicorp.application.controller.post.CreatePostController;
+import com.eddicorp.application.controller.user.CreateUserController;
+import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
 
@@ -15,10 +18,15 @@ public class RootController implements Controller {
     private final Controller staticFileController = new StaticFileController();
     private final Controller notFoundController = new NotFoundController();
 
+    public RootController() {
+        requestMap.put(new RequestMapper("/post", HttpMethod.POST), new CreatePostController());
+        requestMap.put(new RequestMapper("/users", HttpMethod.POST), new CreateUserController());
+    }
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
         final String uri = request.getUri();
         final RequestMapper requestMapper = new RequestMapper(uri, request.getHttpMethod());
+
         final Controller maybeController = requestMap.get(requestMapper);
 
 
