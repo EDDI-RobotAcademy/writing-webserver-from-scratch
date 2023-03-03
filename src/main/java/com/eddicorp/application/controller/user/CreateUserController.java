@@ -9,6 +9,6 @@ import java.io.IOException;
 public class CreateUserController implements Controller {
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
-
+        System.out.println("User create controller running");
     }
 }

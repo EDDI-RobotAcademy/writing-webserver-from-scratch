@@ -9,6 +9,6 @@ import java.io.IOException;
 public class CreatePostController implements Controller {
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
-
+        System.out.println("Post controller running");
     }
 }
