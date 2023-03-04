@@ -30,8 +30,13 @@ public class UserController {
         return user.toString();
     }
 
-//    public String login(){
-//        User user =  userService.findByUsername(this.userName);
-//        if(){}
-//    }
+    public String login(){
+        User user =  userService.findByUsername(this.userName);
+        if(user.getUsername() == null){ return "Error";}
+        else return "OK";
+    }
+
+    public void setCookie() {
+
+    }
 }

@@ -86,9 +86,15 @@ public class HttpRequest {
             case "/post" :
 
                 break;
+
             case "/login.html" :
-                byte[] readIndexLogin = readFileFromResourceStream(filename);
-                return readIndexLogin;
+                String loginResult = userController.login();
+                if(loginResult.equals("OK")){
+                    userController.setCookie();
+                    byte[] readIndexLogin = readFileFromResourceStream(filename);
+                    return readIndexLogin;
+                } else return null;
+
             case "/signup.html" :
                 byte[] readIndexSignup = readFileFromResourceStream(uri);
                 return readIndexSignup;

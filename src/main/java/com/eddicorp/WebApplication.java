@@ -127,3 +127,11 @@ public class WebApplication {
 
 // 3.2 할 일 : html에 데이터 넣을 것임. + 로그인 기능 추가
 // 3.3 할 일 : post 등록 진행.
+
+//response.setStatus(HttpStatus.FOUND);
+//response.setHeader("Set-Cookie", sessionManager.SESSION_KEY_NAME + "=" + sessionManager.createNewSession() + "Path=/; Domain=localhost; Max-Age=300");
+//response.setHeader("Location", "http://localhost:8080/index.html");
+//response.setHeader("Content-Type", "text/html;charset=utf-8;");
+//response.setHeader("Content-Length", "0");
+//response.setBody(new byte[0], null);
+//response.flush();

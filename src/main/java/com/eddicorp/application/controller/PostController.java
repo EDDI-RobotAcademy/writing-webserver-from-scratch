@@ -32,7 +32,7 @@ public class PostController {
     public String getPostList(byte[] readFileData){
 
         final Mustache.Compiler compiler = Mustache.compiler();
-        final String templateStringFromIndexHtmlFile = new String(readFileData, StandardCharsets.UTF_8);
+        final String templateStringFromIndexHtmlFile = new String(readFileData);
 
         final Template template =
                 compiler.compile(templateStringFromIndexHtmlFile);
