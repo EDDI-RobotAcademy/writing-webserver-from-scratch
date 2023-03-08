@@ -1,7 +1,7 @@
 package com.eddicorp.application.controller;
 
 import com.eddicorp.application.controller.post.CreatePostController;
-import com.eddicorp.application.controller.user.CreateUserController;
+import com.eddicorp.application.controller.user.SignUpUserController;
 import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
@@ -21,7 +21,7 @@ public class RootController implements Controller {
 
     public RootController() {
         requestMap.put(new RequestMapper("/post", HttpMethod.POST), new CreatePostController());
-        requestMap.put(new RequestMapper("/users", HttpMethod.POST), new CreateUserController());
+        requestMap.put(new RequestMapper("/users", HttpMethod.POST), new SignUpUserController());
     }
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {

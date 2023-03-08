@@ -29,7 +29,9 @@ public class HttpResponse {
         buildStatusLine();
         buildHeaders();
         outputStream.write(CRLF.getBytes(StandardCharsets.UTF_8));
-        outputStream.write(body);
+        if (body != null) {
+            outputStream.write(body);
+        }
         outputStream.flush();
     }
 
