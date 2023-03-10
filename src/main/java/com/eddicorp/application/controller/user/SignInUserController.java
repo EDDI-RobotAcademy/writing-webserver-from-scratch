@@ -25,16 +25,16 @@ public class SignInUserController implements Controller {
         final String password = mappedBody.get("password");
         User maybeUser = userService.findByUsername(username);
         if (maybeUser != null && Objects.equals(maybeUser.getPassword(), password)) {
+            final ResponseCookie sessionCookie = new ResponseCookie("JSESSIONID", "123123", "/", "localhost", 60 * 3);
             response.setHeader("Location", "/");
+            response.setHeader("Set-Cookie", sessionCookie.build());
             response.setHttpStatus(HttpStatus.FOUND);
             response.setBody(null);
             response.flush();
             return;
         }
         response.setHttpStatus(HttpStatus.NOT_FOUND);
-        final ResponseCookie sessionCookie = new ResponseCookie("JSESSIONID", "123123", "/", "localhost", 60 * 3);
         response.setHeader("Location", "/login-fail.html");
-        response.setHeader("Set-Cookie", sessionCookie.build());
         response.setHttpStatus(HttpStatus.FOUND);
         response.flush();
     }
