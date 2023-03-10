@@ -14,6 +14,9 @@ public class HttpRequest {
     private final HttpMethod httpMethod;
     private final Map<String, String> headerMap = new HashMap<>();
 
+    private final Map<String, Cookie> cookieMap = new HashMap<>();
+
+
     private final String body;
 
     public String getUri() {
@@ -24,7 +27,6 @@ public class HttpRequest {
         return httpMethod;
     }
 
-    private final Map<String, Cookie> cookieMap = new HashMap<>();
 
     public String getBody() {
         return body;
@@ -42,7 +44,7 @@ public class HttpRequest {
 
         String header;
         while (!"".equals(header = readLine(inputStream))) {
-            final String[] headerAndValue = header.split(" ");
+            final String[] headerAndValue = header.split(":");
             final String headerName = headerAndValue[0].trim();
             final String headerValue = headerAndValue[1].trim();
             headerMap.put(headerName, headerValue);
@@ -52,7 +54,21 @@ public class HttpRequest {
         final int available = inputStream.available();
         final byte[] body = new byte[available];
         inputStream.read(body, 0, available);
+        parseCookies();
         this.body = new String(body);
+    }
+
+    private void parseCookies() {
+        final String rawCookie = headerMap.get("Cookie");
+        if (rawCookie == null) {
+            return;
+        }
+        final String[] rawCookies = rawCookie.split(";");
+        for (String raw : rawCookies) {
+            final String[] keyAndValue = raw.split("=");
+            final Cookie cookie = new Cookie(keyAndValue[0].trim(), keyAndValue[1].trim());
+            cookieMap.put(cookie.getName(), cookie);
+        }
     }
 
     private static String readLine(InputStream inputStream) throws IOException {
@@ -83,6 +99,7 @@ public class HttpRequest {
         }
         final Cookie sessionCookie = cookieMap.get(SessionManager.SESSION_KEY_NAME);
         if (sessionCookie != null) {
+            System.out.println(sessionCookie);
             final String sessionId = sessionCookie.getValue();
             return SessionManager.getSession(sessionId);
         }

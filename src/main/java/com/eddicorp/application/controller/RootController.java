@@ -6,6 +6,7 @@ import com.eddicorp.application.controller.user.SignUpUserController;
 import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
+import com.samskivert.mustache.Mustache;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,13 +19,16 @@ import static com.eddicorp.utils.FileHandler.STATIC_FILE_PATH;
 public class RootController implements Controller {
     private static final Map<RequestMapper, Controller> requestMap = new HashMap<>();
     private final Controller staticFileController = new StaticFileController();
+    private final Mustache.Compiler compiler = Mustache.compiler();
     private final Controller notFoundController = new NotFoundController();
 
     public RootController() {
+        requestMap.put(new RequestMapper("/", HttpMethod.GET), new IndexController());
         requestMap.put(new RequestMapper("/post", HttpMethod.POST), new CreatePostController());
         requestMap.put(new RequestMapper("/users", HttpMethod.POST), new SignUpUserController());
         requestMap.put(new RequestMapper("/login", HttpMethod.POST), new SignInUserController());
     }
+
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
         final String uri = request.getUri();

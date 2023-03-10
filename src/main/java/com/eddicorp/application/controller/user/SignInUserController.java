@@ -8,7 +8,7 @@ import com.eddicorp.http.request.BodyParser;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
 import com.eddicorp.http.response.HttpStatus;
-import com.eddicorp.http.session.Cookie;
+import com.eddicorp.http.response.ResponseCookie;
 import com.eddicorp.http.session.HttpSession;
 import com.eddicorp.http.session.SessionManager;
 
@@ -28,12 +28,12 @@ public class SignInUserController implements Controller {
         User maybeUser = userService.findByUsername(username);
         if (maybeUser != null && Objects.equals(maybeUser.getPassword(), password)) {
             final HttpSession httpSession = request.getSession(true);
-            httpSession.setAttribute(username, maybeUser);
-            final Cookie sessionCookie = new Cookie(
+            httpSession.setAttribute("USER", maybeUser);
+            final ResponseCookie sessionResponseCookie = new ResponseCookie(
                     SessionManager.SESSION_KEY_NAME, httpSession.getId(), "/", "localhost", 60 * 3
             );
             response.setHeader("Location", "/");
-            response.setHeader("Set-Cookie", sessionCookie.build());
+            response.setHeader("Set-Cookie", sessionResponseCookie.build());
             response.setHttpStatus(HttpStatus.FOUND);
             response.setBody(null);
             response.flush();
