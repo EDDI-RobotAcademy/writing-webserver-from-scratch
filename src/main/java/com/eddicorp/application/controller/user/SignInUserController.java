@@ -8,6 +8,7 @@ import com.eddicorp.http.request.BodyParser;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
 import com.eddicorp.http.response.HttpStatus;
+import com.eddicorp.http.response.ResponseCookie;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,12 +28,13 @@ public class SignInUserController implements Controller {
             response.setHeader("Location", "/");
             response.setHttpStatus(HttpStatus.FOUND);
             response.setBody(null);
-
             response.flush();
             return;
         }
         response.setHttpStatus(HttpStatus.NOT_FOUND);
+        final ResponseCookie sessionCookie = new ResponseCookie("JSESSIONID", "123123", "/", "localhost", 60 * 3);
         response.setHeader("Location", "/login-fail.html");
+        response.setHeader("Set-Cookie", sessionCookie.build());
         response.setHttpStatus(HttpStatus.FOUND);
         response.flush();
     }

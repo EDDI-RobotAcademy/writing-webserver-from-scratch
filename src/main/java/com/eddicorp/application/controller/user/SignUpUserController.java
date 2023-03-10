@@ -20,7 +20,6 @@ public class SignUpUserController implements Controller {
         Map<String, String> mappedBody = bodyParser.mappedBody;
         final String username = mappedBody.get("username");
         final String password = mappedBody.get("password");
-        System.out.println(username + password);
         userService.signUp(username, password);
         response.setHeader("Location", "/login.html");
         response.setHttpStatus(HttpStatus.FOUND);

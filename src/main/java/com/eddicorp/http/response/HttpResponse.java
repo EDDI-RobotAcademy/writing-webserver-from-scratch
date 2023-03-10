@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpResponse {
-
     private final OutputStream outputStream;
     private HttpStatus httpStatus;
     private final Map<String, String> headerMap = new HashMap<>();
@@ -45,7 +44,6 @@ public class HttpResponse {
             outputStream.write(header.getBytes(StandardCharsets.UTF_8));
         }
     }
-
 
     private void buildStatusLine() throws IOException {
         final String statusLine = "HTTP/1.1 " + this.httpStatus.getStatusCode() + " " + this.httpStatus.getReasonPhrase() + CRLF;
