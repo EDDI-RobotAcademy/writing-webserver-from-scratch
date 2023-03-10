@@ -8,7 +8,9 @@ import com.eddicorp.http.request.BodyParser;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.response.HttpResponse;
 import com.eddicorp.http.response.HttpStatus;
-import com.eddicorp.http.response.ResponseCookie;
+import com.eddicorp.http.session.Cookie;
+import com.eddicorp.http.session.HttpSession;
+import com.eddicorp.http.session.SessionManager;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,7 +27,11 @@ public class SignInUserController implements Controller {
         final String password = mappedBody.get("password");
         User maybeUser = userService.findByUsername(username);
         if (maybeUser != null && Objects.equals(maybeUser.getPassword(), password)) {
-            final ResponseCookie sessionCookie = new ResponseCookie("JSESSIONID", "123123", "/", "localhost", 60 * 3);
+            final HttpSession httpSession = request.getSession(true);
+            httpSession.setAttribute(username, maybeUser);
+            final Cookie sessionCookie = new Cookie(
+                    SessionManager.SESSION_KEY_NAME, httpSession.getId(), "/", "localhost", 60 * 3
+            );
             response.setHeader("Location", "/");
             response.setHeader("Set-Cookie", sessionCookie.build());
             response.setHttpStatus(HttpStatus.FOUND);
@@ -33,7 +39,6 @@ public class SignInUserController implements Controller {
             response.flush();
             return;
         }
-        response.setHttpStatus(HttpStatus.NOT_FOUND);
         response.setHeader("Location", "/login-fail.html");
         response.setHttpStatus(HttpStatus.FOUND);
         response.flush();

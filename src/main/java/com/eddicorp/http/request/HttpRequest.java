@@ -1,5 +1,9 @@
 package com.eddicorp.http.request;
 
+import com.eddicorp.http.session.Cookie;
+import com.eddicorp.http.session.HttpSession;
+import com.eddicorp.http.session.SessionManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -19,6 +23,8 @@ public class HttpRequest {
     public HttpMethod getHttpMethod() {
         return httpMethod;
     }
+
+    private final Map<String, Cookie> cookieMap = new HashMap<>();
 
     public String getBody() {
         return body;
@@ -64,5 +70,22 @@ public class HttpRequest {
             stringBuilder.append(currentChar);
         }
         throw new IllegalStateException("Unable to find CRLF");
+    }
+
+    public HttpSession getSession() {
+        return getSession(false);
+    }
+
+    public HttpSession getSession(Boolean create) {
+        if (create) {
+            final String newSessionId = SessionManager.createNewSession();
+            return SessionManager.getSession(newSessionId);
+        }
+        final Cookie sessionCookie = cookieMap.get(SessionManager.SESSION_KEY_NAME);
+        if (sessionCookie != null) {
+            final String sessionId = sessionCookie.getValue();
+            return SessionManager.getSession(sessionId);
+        }
+        return null;
     }
 }

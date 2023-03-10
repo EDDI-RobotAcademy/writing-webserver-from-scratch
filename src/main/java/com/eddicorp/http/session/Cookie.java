@@ -1,13 +1,13 @@
-package com.eddicorp.http.response;
+package com.eddicorp.http.session;
 
-public class ResponseCookie {
+public class Cookie {
     private final String name;
     private final String value;
     private final String path;
     private final String domain;
     private final int maxAge;
 
-    public ResponseCookie(String name, String value, String path, String domain, int maxAge) {
+    public Cookie(String name, String value, String path, String domain, int maxAge) {
         this.name = name;
         this.value = value;
         this.path = path;
