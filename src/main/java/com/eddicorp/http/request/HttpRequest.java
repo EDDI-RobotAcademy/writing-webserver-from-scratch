@@ -36,6 +36,10 @@ public class HttpRequest {
         return headerMap;
     }
 
+    public Map<String, Cookie> getCookieMap() {
+        return cookieMap;
+    }
+
     public HttpRequest(InputStream inputStream) throws IOException {
         final String rawRequestLine = readLine(inputStream);
         final String[] partsOfRequestLine = rawRequestLine.split(" ");
@@ -99,7 +103,6 @@ public class HttpRequest {
         }
         final Cookie sessionCookie = cookieMap.get(SessionManager.SESSION_KEY_NAME);
         if (sessionCookie != null) {
-            System.out.println(sessionCookie);
             final String sessionId = sessionCookie.getValue();
             return SessionManager.getSession(sessionId);
         }
