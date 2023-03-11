@@ -37,7 +37,7 @@ public class CreatePostController implements Controller {
             }
         }
 
-        postService.createPost("unknown", title, content);
+        postService.createPost("익명", title, content);
         response.setHeader("Location", "/");
         response.setHttpStatus(HttpStatus.FOUND);
         response.flush();
