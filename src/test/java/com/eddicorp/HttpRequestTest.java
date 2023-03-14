@@ -1,6 +1,7 @@
 package com.eddicorp;
 
 
+import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class HttpRequestTest {
         assertEquals(expected, actual);
     }
 
-    @DisplayName("getParameter(page) returns 1 when requested with GET /?page=1")
+    @DisplayName("1 is return from getParameter(page) when requested with GET /?page=1")
     @Test
     void test2() throws IOException {
         // given
@@ -48,5 +49,23 @@ class HttpRequestTest {
 
         // then
         assertEquals(expected, actual);
+    }
+
+    @DisplayName("GET is returned from getHttpMethod() when requested with GET /")
+    @Test
+    void test3() throws IOException {
+        // given
+        final String rawHttpRequestString = "GET / HTTP/1.1\r\n";
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final String expected = "GET";
+        final HttpMethod actual = sut.getHttpMethod();
+
+        // then
+        assertEquals(expected, actual.name());
     }
 }
