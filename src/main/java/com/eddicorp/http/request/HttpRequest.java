@@ -33,6 +33,10 @@ public class HttpRequest {
         return body;
     }
 
+    public String getParameters(String name) {
+        return parameters.get(name);
+    }
+
     public Map<String, String> getHeaderMap() {
         return headerMap;
     }

@@ -31,4 +31,22 @@ class HttpRequestTest {
         final String expected = "/";
         assertEquals(expected, actual);
     }
+
+    @DisplayName("getParameter(page) returns 1 when requested with GET /?page=1")
+    @Test
+    void test2() throws IOException {
+        // given
+        final String rawHttpRequestString = "GET /?page=1 HTTP/1.1\r\n";
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final String expected = "1";
+        final String actual = sut.getParameters("page");
+
+        // then
+        assertEquals(expected, actual);
+    }
 }
