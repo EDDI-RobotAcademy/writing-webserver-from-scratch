@@ -31,7 +31,6 @@ public class IndexController implements Controller {
     @Override
     public void handle(HttpRequest request, HttpResponse response) {
         final List<Post> posts = postService.getAllPosts();
-        System.out.println(posts);
         final String pathToLoad = Paths.get(STATIC_FILE_PATH, "index.html").toString();
         try (
                 final InputStream staticFileInputStream = this.getClass().getClassLoader().getResourceAsStream(pathToLoad);

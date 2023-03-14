@@ -12,6 +12,7 @@ import java.util.Map;
 public class HttpRequest {
     private final String uri;
     private final HttpMethod httpMethod;
+    private final Map<String, String> parameters = new HashMap<>();
     private final Map<String, String> headerMap = new HashMap<>();
 
     private final Map<String, Cookie> cookieMap = new HashMap<>();
@@ -44,10 +45,19 @@ public class HttpRequest {
         final String rawRequestLine = readLine(inputStream);
         final String[] partsOfRequestLine = rawRequestLine.split(" ");
         this.httpMethod = HttpMethod.valueOf(partsOfRequestLine[0]);
-        this.uri = partsOfRequestLine[1];
+        final String uriWithQueryString = partsOfRequestLine[1];
+        final String[] uriAndQueryString = uriWithQueryString.split("\\?");
+        this.uri = uriAndQueryString[0];
+        if (uriAndQueryString.length > 1) {
+            final String[] queryStringKeyValues = uriAndQueryString[1].split("&");
+            for (String queryStringKeyValue : queryStringKeyValues) {
+                final String[] keyAndValue = queryStringKeyValue.split("=");
+                parameters.put(keyAndValue[0], keyAndValue[1]);
+            }
+        }
 
         String header;
-        while (!"".equals(header = readLine(inputStream))) {
+        while (!"".equals(header = readLine(inputStream)) && header != null) {
             final String[] headerAndValue = header.split(":");
             final String headerName = headerAndValue[0].trim();
             final String headerValue = headerAndValue[1].trim();
@@ -75,21 +85,20 @@ public class HttpRequest {
         }
     }
 
-    private static String readLine(InputStream inputStream) throws IOException {
+    private String readLine(InputStream inputStream) throws IOException {
         final StringBuilder stringBuilder = new StringBuilder();
-        int readCharacter;
-        while ((readCharacter = inputStream.read()) != -1) {
-            final char currentChar = (char) readCharacter;
-            if (currentChar == '\r') {
-                if (((char) inputStream.read()) == '\n') {
+        int rawReadChar;
+        while ((rawReadChar = inputStream.read()) != -1) {
+            final char readChar = (char) rawReadChar;
+            if (readChar == '\r') {
+                final char nextChar = (char) inputStream.read();
+                if (nextChar == '\n') {
                     return stringBuilder.toString();
-                } else {
-                    throw new IllegalStateException("Invalid HTTP request.");
                 }
             }
-            stringBuilder.append(currentChar);
+            stringBuilder.append((char) rawReadChar);
         }
-        throw new IllegalStateException("Unable to find CRLF");
+        return null;
     }
 
     public HttpSession getSession() {
