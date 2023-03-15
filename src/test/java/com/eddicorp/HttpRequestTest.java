@@ -76,9 +76,9 @@ class HttpRequestTest {
         // given
         final String rawHttpRequestString =
                 """
-                GET / HTTP/1.1\r
-                Host: localhost:8080\r
-                """;
+                        GET / HTTP/1.1\r
+                        Host: localhost:8080\r
+                        """;
         final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
         final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
 
@@ -112,5 +112,28 @@ class HttpRequestTest {
 
         // then
         assertEquals(expected.getValue(), actual.getValue());
+    }
+
+    @DisplayName("userId=123 is returned from getBody() when requested with body userId=123")
+    @Test
+    void test6() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                Content-Length: 10\r
+                \r
+                userId=123""";
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final String expected = "userId=123";
+        final String actual = sut.getBody();
+
+        // then
+        assertEquals(expected, actual);
     }
 }

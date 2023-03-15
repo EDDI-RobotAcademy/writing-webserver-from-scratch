@@ -13,8 +13,6 @@ import com.eddicorp.http.session.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.eddicorp.http.session.SessionManager.SESSION_KEY_NAME;
-
 public class CreatePostController implements Controller {
     private final PostService postService = new PostServiceImpl();
 
