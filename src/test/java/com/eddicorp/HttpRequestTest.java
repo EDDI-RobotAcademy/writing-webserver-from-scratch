@@ -3,6 +3,7 @@ package com.eddicorp;
 
 import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
+import com.eddicorp.http.session.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +74,8 @@ class HttpRequestTest {
     @Test
     void test4() throws IOException {
         // given
-        final String rawHttpRequestString = """
+        final String rawHttpRequestString =
+                """
                 GET / HTTP/1.1\r
                 Host: localhost:8080\r
                 """;
@@ -88,5 +90,27 @@ class HttpRequestTest {
 
         // then
         assertEquals(expected, actual);
+    }
+
+    @DisplayName("123 is returned from getCookieMap().get('id') when requested with headers Cookie: id=123")
+    @Test
+    void test5() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                Cookie: id=123\r
+                """;
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final Cookie expected = new Cookie("id", "123");
+        final Cookie actual = sut.getCookieMap().get("id");
+
+        // then
+        assertEquals(expected.getValue(), actual.getValue());
     }
 }
