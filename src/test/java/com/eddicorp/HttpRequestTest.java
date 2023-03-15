@@ -68,4 +68,25 @@ class HttpRequestTest {
         // then
         assertEquals(expected, actual.name());
     }
+
+    @DisplayName("localhost:8080 is returned from getHeaderMap().get('Host') when requested with headers Host: localhost:8080")
+    @Test
+    void test4() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                """;
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final String expected = "localhost:8080";
+        final String actual = sut.getHeaderMap().get("Host");
+
+        // then
+        assertEquals(expected, actual);
+    }
 }

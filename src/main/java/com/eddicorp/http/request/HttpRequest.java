@@ -62,7 +62,7 @@ public class HttpRequest {
 
         String header;
         while (!"".equals(header = readLine(inputStream)) && header != null) {
-            final String[] headerAndValue = header.split(":");
+            final String[] headerAndValue = header.split(": ");
             final String headerName = headerAndValue[0].trim();
             final String headerValue = headerAndValue[1].trim();
             headerMap.put(headerName, headerValue);
