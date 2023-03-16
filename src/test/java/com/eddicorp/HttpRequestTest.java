@@ -4,6 +4,7 @@ package com.eddicorp;
 import com.eddicorp.http.request.HttpMethod;
 import com.eddicorp.http.request.HttpRequest;
 import com.eddicorp.http.session.Cookie;
+import com.eddicorp.http.session.HttpSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class HttpRequestTest {
 
@@ -135,5 +137,26 @@ class HttpRequestTest {
 
         // then
         assertEquals(expected, actual);
+    }
+
+    @DisplayName("null is returned from getSession() when JSESSIONID cookie is not present")
+    @Test
+    void test7() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                Content-Length: 10\r
+                """;
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final HttpSession httpSession = sut.getSession();
+
+        // then
+        assertNull(httpSession);
     }
 }
