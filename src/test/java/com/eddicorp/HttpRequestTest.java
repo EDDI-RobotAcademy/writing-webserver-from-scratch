@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class HttpRequestTest {
 
@@ -154,9 +153,52 @@ class HttpRequestTest {
         final HttpRequest sut = new HttpRequest(requestInputStream);
 
         // when
-        final HttpSession httpSession = sut.getSession();
+        final HttpSession httpSession = sut.getSession(false);
 
         // then
         assertNull(httpSession);
+    }
+
+    @DisplayName("HttpSession is created and returned from getSession(true) when JSESSIONID cookie is not present")
+    @Test
+    void test8() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                Content-Length: 10\r
+                """;
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final HttpSession httpSession = sut.getSession(true);
+
+        // then
+        assertNotNull(httpSession);
+    }
+
+    @DisplayName("HttpSession is returned from getSession(false) when JSESSIONID cookie is present")
+    @Test
+    void test9() throws IOException {
+        // given
+        final String rawHttpRequestString = """
+                GET / HTTP/1.1\r
+                Host: localhost:8080\r
+                Content-Length: 10\r
+                Cookie: JSESSIONID=12345\r
+                """;
+        final byte[] rawHttpRequest = rawHttpRequestString.getBytes(StandardCharsets.UTF_8);
+        final InputStream requestInputStream = new ByteArrayInputStream(rawHttpRequest);
+
+        final HttpRequest sut = new HttpRequest(requestInputStream);
+
+        // when
+        final HttpSession httpSession = sut.getSession(false);
+
+        // then
+        assertNotNull(httpSession);
     }
 }
