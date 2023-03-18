@@ -17,7 +17,7 @@ public class SignUpUserController implements Controller {
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
         BodyParser bodyParser = new BodyParser(request.getBody());
-        Map<String, String> mappedBody = bodyParser.mappedBody;
+        Map<String, String> mappedBody = bodyParser.getMappedBody();
         final String username = mappedBody.get("username");
         final String password = mappedBody.get("password");
         userService.signUp(username, password);

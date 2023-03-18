@@ -19,7 +19,8 @@ public class CreatePostController implements Controller {
     @Override
     public void handle(HttpRequest request, HttpResponse response) throws IOException {
         BodyParser bodyParser = new BodyParser(request.getBody());
-        Map<String, String> mappedBody = bodyParser.mappedBody;
+        System.out.println(request.getBody());
+        Map<String, String> mappedBody = bodyParser.getMappedBody();
         final String title = mappedBody.get("title");
         final String content = mappedBody.get("content");
         final HttpSession maybeSession = request.getSession();

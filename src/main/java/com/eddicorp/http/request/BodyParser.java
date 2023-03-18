@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class BodyParser {
 
-    public Map<String, String> mappedBody = new HashMap<>();
+    private final Map<String, String> mappedBody = new HashMap<>();
 
     public Map<String, String> getMappedBody() {
         return mappedBody;

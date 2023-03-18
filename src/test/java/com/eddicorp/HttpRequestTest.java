@@ -28,10 +28,10 @@ class HttpRequestTest {
         final HttpRequest sut = new HttpRequest(requestInputStream);
 
         // when
+        final String expected = "/";
         final String actual = sut.getUri();
 
         // then
-        final String expected = "/";
         assertEquals(expected, actual);
     }
 
@@ -153,7 +153,7 @@ class HttpRequestTest {
         final HttpRequest sut = new HttpRequest(requestInputStream);
 
         // when
-        final HttpSession httpSession = sut.getSession(false);
+        final HttpSession httpSession = sut.getSession();
 
         // then
         assertNull(httpSession);
