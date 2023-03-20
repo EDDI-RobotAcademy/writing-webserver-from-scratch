@@ -1,4 +1,4 @@
-package com.eddicorp;
+package com.eddicorp.http.request;
 
 
 import com.eddicorp.http.request.HttpMethod;
