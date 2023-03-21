@@ -1,15 +1,9 @@
 package com.eddicorp.http.session;
 
-import com.eddicorp.http.request.HttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CookieTest {
     @DisplayName("Cookie.toString()이 올바른 값의 String을 반환한다.")
