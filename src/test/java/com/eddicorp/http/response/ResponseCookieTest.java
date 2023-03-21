@@ -3,11 +3,7 @@ package com.eddicorp.http.response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ResponseCookieTest {
     @DisplayName("ResponseCookie.build() 실행 시 올바른 Cookie String을 반환한다.")
