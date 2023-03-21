@@ -20,19 +20,12 @@ class HttpResponseTest {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4096);
         final HttpResponse sut = new HttpResponse(outputStream);
         sut.setHttpStatus(HttpStatus.OK);
-//        sut.setHeader("Content-Type", "application/json");
-//        sut.setBody("Test body".getBytes(StandardCharsets.UTF_8));
 
         sut.flush();
-
 
         // when
         String expected = "HTTP/1.1 200 OK\r\n\r\n";
         String actual = outputStream.toString(StandardCharsets.UTF_8);
-
-//        String expectedHeaders = "Content-Type: application/json\r\n";
-//        String expectedBody = "Test body";
-
 
         // then
         assertEquals(expected, actual);
@@ -46,14 +39,12 @@ class HttpResponseTest {
         final HttpResponse sut = new HttpResponse(outputStream);
         sut.setHttpStatus(HttpStatus.OK);
         sut.setHeader("Content-Type", "application/json");
-//        sut.setBody("Test body".getBytes(StandardCharsets.UTF_8));
 
         sut.flush();
 
         // when
         String actual = outputStream.toString(StandardCharsets.UTF_8);
         String expected = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n";
-//        String expectedBody = "Test body";
 
         // then
         assertEquals(expected, actual);
