@@ -1,0 +1,29 @@
+package com.eddicorp.http.session;
+
+import com.eddicorp.http.request.HttpRequest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class CookieTest {
+    @DisplayName("Cookie.toString()이 올바른 값의 String을 반환한다.")
+    @Test
+    void test1() {
+        // given
+        final Cookie sut = new Cookie("testName", "testValue");
+
+        // when
+        final String expected = "Cookie{name='testName', value='testValue'}";
+        final String actual = sut.toString();
+
+        // then
+        assertEquals(expected, actual);
+    }
+
+}
